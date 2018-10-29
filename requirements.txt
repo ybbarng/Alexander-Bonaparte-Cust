@@ -1,0 +1,6 @@
+bluepy==1.2.0
+celery==4.2.1
+Flask==1.0.2
+python-dotenv==0.9.1
+redis==2.10.6
+requests==2.20.0
