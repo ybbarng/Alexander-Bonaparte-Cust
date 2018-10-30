@@ -17,6 +17,8 @@ PASSWORD = os.getenv('AWAIR_PASSWORD')
 ACCESS_TOKEN = os.getenv('AWAIR_ACCESS_TOKEN')
 DEVICE_ID = os.getenv('AWAIR_MINT_DEVICE_ID')
 
+COLORS = ['#2EB886', '#ABA74D', '#DAA038', '#BF511C', '#A30200']
+
 
 def get_awair():
     return Awair(email=EMAIL, password=PASSWORD, access_token=ACCESS_TOKEN)
@@ -47,12 +49,12 @@ def notify_score(score):
             'short': True,
         },
     ]
-    color = 'good'
+    color_index = 0
     if score.score <= 80:
-        color = 'danger'
+        color_index = 4
     elif score.score <= 90:
-        color = 'warning'
-    send_to_slack(color, message, fields, score.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
+        color_index = 2
+    send_to_slack(COLORS[color_index], message, fields, score.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
 
 
 @app.task

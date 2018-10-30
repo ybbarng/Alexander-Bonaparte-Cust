@@ -14,7 +14,7 @@ WEBHOOK_URL = os.getenv('SLACK_WEBHOOK_URL')
 
 @app.task
 def write(name, color, message, fields=None, timestamp=None):
-    # color: good, warning, danger, #439FE0
+    # color: good(#2EB886), warning(#DAA038), danger(#A30200), #439FE0
     if not WEBHOOK_URL:
         raise ValueError('Invalid slack webook_url: {}'.format(WEBHOOK_URL))
     headers = {
