@@ -1,21 +1,18 @@
 import json
 import os
 
-from celery import Celery
 from dotenv import load_dotenv
 import requests
 
-import celeryconfig
+from abcust.celery import app
 
 
 load_dotenv()
 
 WEBHOOK_URL = os.getenv('SLACK_WEBHOOK_URL')
 
-app = Celery('audrey', config_source=celeryconfig)
 
-
-@app.task()
+@app.task
 def write(name, status, message, fields=None):
     if not WEBHOOK_URL:
         raise ValueError('Invalid slack webook_url: {}'.format(WEBHOOK_URL))

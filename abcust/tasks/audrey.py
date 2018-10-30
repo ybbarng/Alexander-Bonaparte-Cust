@@ -1,25 +1,22 @@
 import os
 
-from celery import Celery
 from dotenv import load_dotenv
 
-import celeryconfig
-from lib.audrey import Audrey
-import slack
+from abcust.celery import app
+from abcust.lib.audrey import Audrey
+from abcust.tasks import slack
 
 
 load_dotenv()
 
 AUDREY_MAC_ADDRESS = os.getenv('AUDREY_MAC_ADDRESS')
 
-app = Celery('audrey', config_source=celeryconfig)
-
 
 def notify(message):
     slack.write.delay('Audrey', 'good', message)
 
 
-@app.task()
+@app.task
 def power_on():
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
     audrey.send_command('TOGGLE:POWER:ON')
@@ -27,7 +24,7 @@ def power_on():
     notify('파워모드를 켰습니다.')
 
 
-@app.task()
+@app.task
 def power_off():
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
     audrey.send_command('NORMAL:COOL:27:LOW')
@@ -35,7 +32,7 @@ def power_off():
     notify('파워모드를 껐습니다.')
 
 
-@app.task()
+@app.task
 def raw_command(command):
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
     audrey.send_command(command)

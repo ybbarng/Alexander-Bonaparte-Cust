@@ -1,19 +1,16 @@
 import os
 
-from celery import Celery
 from dotenv import load_dotenv
 
-import celeryconfig
-from lib.switcher import Switcher
-import slack
+from abcust.celery import app
+from abcust.lib.switcher import Switcher
+from abcust.tasks import slack
 
 
 load_dotenv()
 
 SWITCHER_MAC_ADDRESS = os.getenv('SWITCHER_MAC_ADDRESS')
 SWITCHER_SHARE_CODE = os.getenv('SWITCHER_SHARE_CODE')
-
-app = Celery('brice', config_source=celeryconfig)
 
 
 def notify(message):
@@ -29,17 +26,17 @@ def manage_switch(switch_index, on=True):
     notify('{}번 조명을 {}습니다.'.format(switch_index, '켰' if on else '껐'))
 
 
-@app.task()
+@app.task
 def turn_on(switch_index):
     manage_switch(switch_index, True)
 
 
-@app.task()
+@app.task
 def turn_off(switch_index):
     manage_switch(switch_index, False)
 
 
-@app.task()
+@app.task
 def get_battery():
     switcher = Switcher(SWITCHER_MAC_ADDRESS, SWITCHER_SHARE_CODE)
     battery = switcher.get_battery()
@@ -48,7 +45,7 @@ def get_battery():
     return battery
 
 
-@app.task()
+@app.task
 def get_time():
     switcher = Switcher(SWITCHER_MAC_ADDRESS, SWITCHER_SHARE_CODE)
     time = switcher.get_time()

@@ -2,18 +2,15 @@ import base64
 import codecs
 import os
 
-from celery import Celery
 import requests
 
-import celeryconfig
-import slack
+from abcust.celery import app
+from abcust.tasks import slack
 
 
 PAPAGO_SERVER_URL = 'https://papago.naver.com/apis/tts/'
 DATA_HEADER = codecs.decode('ae55aea1439b2c557a64f8ef7069746368223a302c22737065616b6572223a226b79757269222c227370656564223a302c2274657874223a22', 'hex')
 DATA_FOOTER = codecs.decode('227d', 'hex')
-
-app = Celery('tts', config_source=celeryconfig)
 
 
 class TtsException(Exception):
@@ -51,7 +48,7 @@ def buildVoiceUrl(voiceFileId):
     return PAPAGO_SERVER_URL + voiceFileId
 
 
-@app.task()
+@app.task
 def getVoice(message, play=False, share_result_to_slack=False):
     try:
         url = buildVoiceUrl(createVoiceFileId(getData(tidyUp(message))))

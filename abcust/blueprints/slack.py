@@ -1,31 +1,18 @@
-# A web server for slack actions
+# A blueprint for slack actions
 
-import os
+from flask import abort, Blueprint, jsonify, request
 
-from dotenv import load_dotenv
-from flask import abort, Flask, jsonify, request
-
-import audrey
-import brice
-import slack
-import tts
+from abcust.tasks import audrey
+from abcust.tasks import brice
+from abcust.tasks import slack
+from abcust.tasks import tts
 
 
-load_dotenv()
-
-AUDREY_MAC_ADDRESS = os.getenv('AUDREY_MAC_ADDRESS')
+slack = Blueprint('slack', __name__)
 
 
-app = Flask(__name__)
-
-
-@app.route('/')
-def main():
-    return 'Hello, It\'s Alexander Bonaparte Cust.'
-
-
-@app.route('/slack', methods=['POST'])
-def slack():
+@slack.route('/slack', methods=['POST'])
+def on_slack():
     command = request.form['command'][1:]
     action = None
     if 'audrey' in command:
@@ -85,26 +72,3 @@ def action_tts(request):
         'text': '"{}"의 음성 변환을 시도합니다.'.format(message),
     }
     return jsonify(response)
-
-
-@app.route('/tts', methods=['POST'])
-def on_tts():
-    service = request.form['service']
-    message = request.form['text']
-
-    tts.getVoice.delay('{} {}'.format(service, message), True)
-
-    slack_status = 'good'
-    slack_message = message
-    slack.write.delay('tts', slack_status, slack_message)
-
-    response = {}
-    return jsonify(response)
-
-
-def run(port=None):
-    app.run(host='0.0.0.0', port=port)
-
-
-if __name__ == '__main__':
-    run(8000)
