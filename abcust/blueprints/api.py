@@ -23,7 +23,7 @@ def on_tts():
 
     tts.getVoice.delay('{} {}'.format(service, message), True)
 
-    slack.write.delay('tts', 'good', message)
+    slack.write.delay('tts', 'good', message=message)
 
     response = {}
     return jsonify(response)

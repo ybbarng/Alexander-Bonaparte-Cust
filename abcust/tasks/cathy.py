@@ -25,7 +25,7 @@ def get_awair():
 
 
 def send_to_slack(color, message, fields=None, timestamp=None):
-    slack.write.delay('cathy', color, message, fields, timestamp)
+    slack.write.delay('Cathy', color, None, message, fields, timestamp)
 
 
 def notify_score(score):

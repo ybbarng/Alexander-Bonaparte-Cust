@@ -14,7 +14,7 @@ SWITCHER_SHARE_CODE = os.getenv('SWITCHER_SHARE_CODE')
 
 
 def notify(message):
-    slack.write.delay('Brice', 'good', message)
+    slack.write.delay('Brice', 'good', message=message)
 
 
 def manage_switch(switch_index, on=True):

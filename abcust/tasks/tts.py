@@ -74,7 +74,7 @@ def playFrom(url):
 
 
 def send_to_slack(color, message, fields):
-    slack.write.delay('tts', color, message, fields)
+    slack.write.delay('tts', color, message=message, fields=fields)
 
 
 def send_to_slack_success(message, url):
