@@ -4,6 +4,7 @@ from flask import abort, Blueprint, jsonify, request
 
 from abcust.tasks import audrey
 from abcust.tasks import brice
+from abcust.tasks import cathy
 from abcust.tasks import slack
 from abcust.tasks import tts
 
@@ -19,6 +20,8 @@ def on_slack():
         action = action_audrey
     elif 'brice' in command:
         action = action_brice
+    elif 'cathy' in command:
+        action = action_cathy
     elif 'tts' == command:
         action = action_tts
     if action is None:
@@ -60,6 +63,19 @@ def action_brice(request):
     response = {
         'response_type': 'in_channel',
         'text': 'Brice에게 명령을 전달했습니다.',
+    }
+    return jsonify(response)
+
+
+def action_cathy(request):
+    command = request.form['command'].replace('/', '')
+    my_actions = {
+        'cathy_score': cathy.get_score,
+    }
+    my_actions[command].delay()
+    response = {
+        'response_type': 'in_channel',
+        'text': 'Cathy에게 명령을 전달했습니다.',
     }
     return jsonify(response)
 

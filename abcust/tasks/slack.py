@@ -13,11 +13,13 @@ WEBHOOK_URL = os.getenv('SLACK_WEBHOOK_URL')
 
 
 @app.task
-def write(name, status, message, fields=None):
+def write(name, status, message, fields=None, timestamp=None):
     if not WEBHOOK_URL:
         raise ValueError('Invalid slack webook_url: {}'.format(WEBHOOK_URL))
     colors = {
         'good': 'good',
+        'warning': 'warning',
+        'bad': 'danger',
         'error': 'danger',
     }
     headers = {
@@ -35,6 +37,9 @@ def write(name, status, message, fields=None):
     }
     if fields:
         payload['attachments'][0]['fields'] = fields
+
+    if timestamp:
+        payload['attachments'][0]['ts'] = timestamp
     response = requests.post(WEBHOOK_URL, headers=headers, data=json.dumps(payload))
     if response.status_code != 200:
         raise ValueError('Request to slack returned an error: ({}, {})'.format(response.status_code, response.text))

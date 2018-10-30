@@ -7,6 +7,7 @@ My home infra manager
 
 ## Connected Devices
 * [Audrey](https://github.com/ybbarng/myIoT/blob/master/arduino/audrey.ino)
+* [Cathy](https://github.com/ybbarng/awair)
 * [Switcher](https://github.com/ybbarng/switcher)
 
 ## TODO
