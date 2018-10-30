@@ -7,15 +7,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-imports = ('abcust.tasks.audrey', 'abcust.tasks.brice', 'abcust.tasks.slack', 'abcust.tasks.tts')
 broker_url = os.getenv('BROKER_URL')
 result_backend = os.getenv('CELERY_RESULT_BACKEND')
 
 
 app = Celery('abcust',
              broker=broker_url,
-             backend=result_backend,
-             include=imports)
+             backend=result_backend)
 
 
 if __name__ == '__main__':
