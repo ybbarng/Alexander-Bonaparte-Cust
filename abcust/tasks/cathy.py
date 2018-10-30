@@ -101,7 +101,7 @@ def get_inbox_items_batch(minutes=5):
                       inbox_item.title,
                       inbox_item.description,
                       timestamp=inbox_item.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
-    return inbox_items
+    return True
 
 
 def get_index(inbox_item):
