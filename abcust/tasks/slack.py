@@ -23,7 +23,7 @@ def write(name, color, title=None, message=None, fields=None, timestamp=None):
     payload = {
         'attachments': [
             {
-                'author': name,
+                'author_name': name,
                 'fallback': '{}: ({}) {}'.format(name, color, message),
                 'text': message,
                 'color': color,
