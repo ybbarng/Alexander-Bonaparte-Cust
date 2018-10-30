@@ -73,8 +73,8 @@ def playFrom(url):
     os.popen(command_play_from_url, 'r')
 
 
-def send_to_slack(status, message, fields):
-    slack.write.delay('tts', status, message, fields)
+def send_to_slack(color, message, fields):
+    slack.write.delay('tts', color, message, fields)
 
 
 def send_to_slack_success(message, url):
@@ -92,7 +92,7 @@ def send_to_slack_error(message, e):
         'value': e,
         'short': False
     }]
-    send_to_slack('error', message, fields)
+    send_to_slack('danger', message, fields)
 
 
 if __name__ == '__main__':

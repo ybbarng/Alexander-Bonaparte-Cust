@@ -5,7 +5,6 @@ from flask import abort, Blueprint, jsonify, request
 from abcust.tasks import audrey
 from abcust.tasks import brice
 from abcust.tasks import cathy
-from abcust.tasks import slack
 from abcust.tasks import tts
 
 

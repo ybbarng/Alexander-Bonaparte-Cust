@@ -13,25 +13,20 @@ WEBHOOK_URL = os.getenv('SLACK_WEBHOOK_URL')
 
 
 @app.task
-def write(name, status, message, fields=None, timestamp=None):
+def write(name, color, message, fields=None, timestamp=None):
+    # color: good, warning, danger, #439FE0
     if not WEBHOOK_URL:
         raise ValueError('Invalid slack webook_url: {}'.format(WEBHOOK_URL))
-    colors = {
-        'good': 'good',
-        'warning': 'warning',
-        'bad': 'danger',
-        'error': 'danger',
-    }
     headers = {
         'Content-Type': 'application/json'
     }
     payload = {
         'attachments': [
             {
-                'fallback': '{}: ({}) {}'.format(name, status, message),
+                'fallback': '{}: ({}) {}'.format(name, color, message),
                 'title': name,
                 'text': message,
-                'color': colors[status],
+                'color': color,
             },
         ]
     }

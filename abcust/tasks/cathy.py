@@ -22,8 +22,8 @@ def get_awair():
     return Awair(email=EMAIL, password=PASSWORD, access_token=ACCESS_TOKEN)
 
 
-def send_to_slack(status, message, fields=None, timestamp=None):
-    slack.write.delay('cathy', status, message, fields, timestamp)
+def send_to_slack(color, message, fields=None, timestamp=None):
+    slack.write.delay('cathy', color, message, fields, timestamp)
 
 
 def notify_score(score):
@@ -47,12 +47,12 @@ def notify_score(score):
             'short': True,
         },
     ]
-    status = 'good'
+    color = 'good'
     if score.score <= 80:
-        status = 'bad'
+        color = 'danger'
     elif score.score <= 90:
-        status = 'warning'
-    send_to_slack(status, message, fields, score.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
+        color = 'warning'
+    send_to_slack(color, message, fields, score.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
 
 
 @app.task
