@@ -33,6 +33,22 @@ def power_off():
 
 
 @app.task
+def turn_on():
+    audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
+    audrey.send_command('ON')
+    audrey.disconnect()
+    notify('에어컨을 켰습니다.')
+
+
+@app.task
+def turn_off():
+    audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
+    audrey.send_command('OFF')
+    audrey.disconnect()
+    notify('에어컨을 껐습니다.')
+
+
+@app.task
 def raw_command(command):
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
     audrey.send_command(command)

@@ -81,6 +81,8 @@ def action_audrey(request):
     my_actions = {
         'audrey_power_on': audrey.power_on,
         'audrey_power_off': audrey.power_off,
+        'audrey_turn_on': audrey.turn_on,
+        'audrey_turn_off': audrey.turn_off,
     }
     command = request.form['command'].replace('/', '')
     if command == 'audrey_raw':
