@@ -90,22 +90,21 @@ def get_inbox_items(start_dt, end_dt):
 
 @app.task
 def get_inbox_items_batch():
+    FILE = 'cathy_last_notified.timestamp'
     MAXIMUM_INTERVAL = 6  # hours
-    last_batch_info = BatchInfo.load()
 
     end_dt = datetime.utcnow()
-    start_dt = max(end_dt - timedelta(hours=MAXIMUM_INTERVAL), last_batch_info.last_queried_dt)
+    last_notified = LastNotified.load()
+    start_dt = max(end_dt - timedelta(hours=MAXIMUM_INTERVAL), last_notified.datetime)
 
     new_notified_dt = notify_new_inbox_item(
         reversed(get_inbox_items(start_dt, end_dt)),
-        last_batch_info.last_notified_dt)
+        last_notified.datetime)
 
-    if new_notified_dt > last_batch_info.last_notified_dt:
+    if new_notified_dt > last_notified.datetime:
         notify_score.delay()
-        last_batch_info.last_notified_dt = new_notified_dt
-
-    last_batch_info.last_queried_dt = end_dt
-    last_batch_info.save()
+        last_notified.datetime = new_notified_dt
+        last_notified.save()
 
     return True
 
@@ -144,42 +143,30 @@ def notify_new_inbox_item(inbox_items, last_notified_dt):
     return new_notified_dt
 
 
-class BatchInfo:
-    FILE = 'cathy_inbox_batch_info.json'
-    KEY_LAST_NOTIFIED = 'last_notified_timestamp'
-    KEY_LAST_QUERIED = 'last_queried_timestamp'
+class LastNotified:
+    FILE = 'cathy_last_notified.timestamp'
 
-    def __init__(self, json):
-        self.last_notified_dt = datetime.fromtimestamp(json[self.KEY_LAST_NOTIFIED])
-        self.last_queried_dt = datetime.fromtimestamp(json[self.KEY_LAST_QUERIED])
-
-    def to_json(self):
-        return {
-            self.KEY_LAST_NOTIFIED: self.last_notified_dt.timestamp(),
-            self.KEY_LAST_QUERIED: self.last_queried_dt.timestamp(),
-        }
+    def __init__(self, timestamp):
+        self.datetime = datetime.fromtimestamp(timestamp)
 
     @classmethod
-    def _load_json(cls):
+    def _load_timestamp(cls):
         try:
             with open(cls.FILE, 'r') as f:
-                return json.load(f)
-        except (FileNotFoundError, json.decoder.JSONDecodeError):
-            return {
-                cls.KEY_LAST_NOTIFIED: 0,
-                cls.KEY_LAST_QUERIED: 0
-            }
+                return float(f.read())
+        except (FileNotFoundError, ValueError):
+            return 0
 
     @classmethod
     def load(cls):
-        return cls(cls._load_json())
+        return cls(cls._load_timestamp())
 
     @classmethod
-    def _save_json(cls, json_data):
+    def _save_timestamp(cls, timestamp):
         with open(cls.FILE, 'w+') as f:
-            json.dump(json_data, f)
+            f.write(str(timestamp))
 
     def save(self):
-        self._save_json(self.to_json())
+        self._save_timestamp(self.datetime.timestamp())
 
 
