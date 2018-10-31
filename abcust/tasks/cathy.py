@@ -1,3 +1,4 @@
+import json
 import os
 from datetime import datetime
 from datetime import timedelta
@@ -32,7 +33,7 @@ def send_to_slack_blocking(color, title=None, message=None, fields=None, timesta
     slack.write('Cathy', color, title, message, fields, timestamp)
 
 
-def notify_score(score):
+def _notify_score(score):
     message = '현재 공기질 종합 점수는 {}점입니다.'.format(score.score)
     fields = [
         {
@@ -61,11 +62,14 @@ def notify_score(score):
     send_to_slack(COLORS[color_index], None, message, fields, score.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
 
 
-@app.task
 def get_score():
-    score = get_awair().get_score(DeviceType.AWAIR_MINT, DEVICE_ID)
-    notify_score(score)
-    return score
+    return get_awair().get_score(DeviceType.AWAIR_MINT, DEVICE_ID)
+
+
+@app.task
+def notify_score():
+    _notify_score(get_score())
+    return True
 
 
 @app.task
@@ -81,26 +85,28 @@ def get_timelines():
 
 @app.task
 def get_inbox_items(start_dt, end_dt):
-    inbox_items = get_awair().get_inbox_items(start_dt, end_dt, 'ko')
-    return inbox_items
+    return get_awair().get_inbox_items(start_dt, end_dt, 'ko')
 
 
 @app.task
-def get_inbox_items_batch(minutes=5):
-    end_dt = datetime.now()
-    start_dt = end_dt - timedelta(minutes=minutes)
-    inbox_items = get_inbox_items(start_dt, end_dt)
-    for inbox_item in reversed(inbox_items):
-        index = get_index(inbox_item)
-        fields = [{
-            'title': '경고 단계',
-            'value': '{} 단계'.format(index),
-            'short': False
-        }]
-        send_to_slack_blocking(COLORS[index],
-                      inbox_item.title,
-                      inbox_item.description,
-                      timestamp=inbox_item.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
+def get_inbox_items_batch():
+    MAXIMUM_INTERVAL = 6  # hours
+    last_batch_info = BatchInfo.load()
+
+    end_dt = datetime.utcnow()
+    start_dt = max(end_dt - timedelta(hours=MAXIMUM_INTERVAL), last_batch_info.last_queried_dt)
+
+    new_notified_dt = notify_new_inbox_item(
+        reversed(get_inbox_items(start_dt, end_dt)),
+        last_batch_info.last_notified_dt)
+
+    if new_notified_dt > last_batch_info.last_notified_dt:
+        notify_score.delay()
+        last_batch_info.last_notified_dt = new_notified_dt
+
+    last_batch_info.last_queried_dt = end_dt
+    last_batch_info.save()
+
     return True
 
 
@@ -117,3 +123,63 @@ def get_index(inbox_item):
                       message='알림 메시지의 경고 단계를 추정할 수 없습니다.',
                       fields=fields)
         return 4
+
+
+def notify_new_inbox_item(inbox_items, last_notified_dt):
+    new_notified_dt = datetime.fromtimestamp(0)
+    for inbox_item in inbox_items:
+        if inbox_item.timestamp <= last_notified_dt:
+            continue
+        index = get_index(inbox_item)
+        fields = [{
+            'title': '경고 단계',
+            'value': '{} 단계'.format(index),
+            'short': False
+        }]
+        send_to_slack_blocking(COLORS[index],
+                      inbox_item.title,
+                      inbox_item.description,
+                      timestamp=inbox_item.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
+        new_notified_dt = inbox_item.timestamp
+    return new_notified_dt
+
+
+class BatchInfo:
+    FILE = 'cathy_inbox_batch_info.json'
+    KEY_LAST_NOTIFIED = 'last_notified_timestamp'
+    KEY_LAST_QUERIED = 'last_queried_timestamp'
+
+    def __init__(self, json):
+        self.last_notified_dt = datetime.fromtimestamp(json[self.KEY_LAST_NOTIFIED])
+        self.last_queried_dt = datetime.fromtimestamp(json[self.KEY_LAST_QUERIED])
+
+    def to_json(self):
+        return {
+            self.KEY_LAST_NOTIFIED: self.last_notified_dt.timestamp(),
+            self.KEY_LAST_QUERIED: self.last_queried_dt.timestamp(),
+        }
+
+    @classmethod
+    def _load_json(cls):
+        try:
+            with open(cls.FILE, 'r') as f:
+                return json.load(f)
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            return {
+                cls.KEY_LAST_NOTIFIED: 0,
+                cls.KEY_LAST_QUERIED: 0
+            }
+
+    @classmethod
+    def load(cls):
+        return cls(cls._load_json())
+
+    @classmethod
+    def _save_json(cls, json_data):
+        with open(cls.FILE, 'w+') as f:
+            json.dump(json_data, f)
+
+    def save(self):
+        self._save_json(self.to_json())
+
+

@@ -17,11 +17,11 @@ app = Celery('abcust',
              backend=result_backend)
 
 app.conf.timezone = 'Asia/Seoul'
+
 app.conf.beat_schedule = {
     'check-awair-notification-every-5-mins': {
         'task': 'abcust.tasks.cathy.get_inbox_items_batch',
         'schedule': crontab(minute='*/5'),
-        'args': (5,)
     },
 }
 

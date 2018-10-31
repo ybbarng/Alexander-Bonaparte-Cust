@@ -69,7 +69,7 @@ def action_brice(request):
 def action_cathy(request):
     command = request.form['command'].replace('/', '')
     my_actions = {
-        'cathy_score': cathy.get_score,
+        'cathy_score': cathy.notify_score,
     }
     my_actions[command].delay()
     response = {
