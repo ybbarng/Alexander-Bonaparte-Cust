@@ -23,6 +23,8 @@ def on_slack():
         action = action_cathy
     elif 'tts' == command:
         action = action_tts
+    elif 'ping' == command:
+        action = action_ping
     if action is None:
         return abort(400)
     return action(request)
@@ -87,3 +89,7 @@ def action_tts(request):
         'text': '"{}"의 음성 변환을 시도합니다.'.format(message),
     }
     return jsonify(response)
+
+
+def action_ping(request):
+    return 'pong'
