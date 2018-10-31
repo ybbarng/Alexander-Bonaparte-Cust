@@ -81,7 +81,7 @@ def action_cathy(request):
 
 def action_tts(request):
     message = request.form['text']
-    tts.getVoice.delay(message, False, True)
+    tts.get_voice.delay(message, False, True)
     response = {
         'response_type': 'in_channel',
         'text': '"{}"의 음성 변환을 시도합니다.'.format(message),

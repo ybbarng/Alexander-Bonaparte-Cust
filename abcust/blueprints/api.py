@@ -21,7 +21,7 @@ def on_tts():
     service = request.form['service']
     message = request.form['text']
 
-    tts.getVoice.delay('{} {}'.format(service, message), True)
+    tts.get_voice.delay('{} {}'.format(service, message), True)
 
     slack.write.delay('tts', 'good', message=message)
 

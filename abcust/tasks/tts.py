@@ -49,7 +49,7 @@ def buildVoiceUrl(voiceFileId):
 
 
 @app.task
-def getVoice(message, play=False, share_result_to_slack=False):
+def get_voice(message, play=False, share_result_to_slack=False):
     try:
         url = buildVoiceUrl(createVoiceFileId(getData(tidyUp(message))))
         if play:
@@ -100,4 +100,4 @@ if __name__ == '__main__':
         message = input('음성으로 변환할 메시지를 입력하세요: ')
         if message == 'q':
             break
-        print(getVoice(message, True))
+        print(get_voice(message, True))
