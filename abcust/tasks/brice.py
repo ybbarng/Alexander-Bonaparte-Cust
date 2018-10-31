@@ -1,3 +1,4 @@
+from functools import wraps
 import os
 
 from dotenv import load_dotenv
@@ -26,6 +27,14 @@ def manage_switch(switch_index, on=True):
     notify('{}번 조명을 {}습니다.'.format(switch_index, '켰' if on else '껐'))
 
 
+def manage_switch_all(on=True):
+    switcher = Switcher(SWITCHER_MAC_ADDRESS, SWITCHER_SHARE_CODE)
+    for switch_index in [1, 2]:
+        switcher.manage_switch(switch_index, on)
+    switcher.disconnect()
+    notify('모든 조명을 {}습니다.'.format('켰' if on else '껐'))
+
+
 @app.task
 def turn_on(switch_index):
     manage_switch(switch_index, True)
@@ -34,6 +43,16 @@ def turn_on(switch_index):
 @app.task
 def turn_off(switch_index):
     manage_switch(switch_index, False)
+
+
+@app.task
+def turn_on_all():
+    manage_switch_all(True)
+
+
+@app.task
+def turn_off_all():
+    manage_switch_all(False)
 
 
 @app.task

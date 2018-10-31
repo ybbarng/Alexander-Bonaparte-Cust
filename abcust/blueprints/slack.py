@@ -96,7 +96,7 @@ def action_audrey(request):
 
 def action_brice(request):
     command = request.form['command'].replace('/', '')
-    if 'turn' in request.form['command']:
+    if 'turn' in command and 'all' not in command:
         switch = int(request.form['text'])
         if 'on' in command:
             brice.turn_on.delay(switch)
@@ -106,6 +106,8 @@ def action_brice(request):
         my_actions = {
             'brice_battery': brice.get_battery,
             'brice_time': brice.get_time,
+            'brice_turn_on_all': brice.turn_on_all,
+            'brice_turn_off_all': brice.turn_off_all,
         }
         my_actions[command].delay()
     response = {
