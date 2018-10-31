@@ -14,7 +14,8 @@ result_backend = os.getenv('CELERY_RESULT_BACKEND')
 
 app = Celery('abcust',
              broker=broker_url,
-             backend=result_backend)
+             backend=result_backend,
+             include=('abcust.tasks.facebook',))
 
 app.conf.timezone = 'Asia/Seoul'
 
