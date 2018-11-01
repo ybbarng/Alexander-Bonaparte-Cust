@@ -9,17 +9,17 @@ DATABASE_FILE = 'facebook_{}.json'
 
 @app.task
 def on_entry(entry):
-    database = load_database(entry['keyword'])
+    database = load_database(entry['name'])
     if entry['url'] in database:
         return
     slack.write.delay(
         'Facebook',
         'good',
-        '\'{}\'에 대한 새 포스트가 검색되었습니다.'.format(entry['keyword']),
+        '\'{}\'의 새 포스트가 검색되었습니다.'.format(entry['name']),
         entry['content'],
         title_link=entry['url'])
     database.add(entry['url'])
-    save_database(database, entry['keyword'])
+    save_database(database, entry['name'])
 
 
 def load_database(search_key):
