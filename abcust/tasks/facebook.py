@@ -2,6 +2,7 @@ import json
 
 from abcust.celery import app
 from abcust.tasks import slack
+import mmh3
 
 
 DATABASE_FILE = 'facebook_{}.json'
@@ -10,15 +11,18 @@ DATABASE_FILE = 'facebook_{}.json'
 @app.task
 def on_entry(entry):
     database = load_database(entry['name'])
-    if entry['url'] in database:
+    hash_key = mmh3.hash(entry['content'][:20])
+    if hash_key in database:
         return
+    message = '\'{}\'의 새 포스트가 검색되었습니다.'.format(entry['name'])
+    print(message)
     slack.write.delay(
         'Facebook',
         'good',
-        '\'{}\'의 새 포스트가 검색되었습니다.'.format(entry['name']),
+        message,
         entry['content'],
         title_link=entry['url'])
-    database.add(entry['url'])
+    database.add(hash_key)
     save_database(database, entry['name'])
 
 
