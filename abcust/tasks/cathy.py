@@ -25,12 +25,12 @@ def get_awair():
     return Awair(email=EMAIL, password=PASSWORD, access_token=ACCESS_TOKEN)
 
 
-def send_to_slack(color, title=None, message=None, fields=None, timestamp=None):
-    slack.write.delay('Cathy', color, title, message, fields, timestamp)
+def send_to_slack(color, title=None, message=None, fields=None, timestamp=None, log=False):
+    slack.write.delay('Cathy', color, title, message, fields, timestamp, log=log)
 
 
-def send_to_slack_blocking(color, title=None, message=None, fields=None, timestamp=None):
-    slack.write('Cathy', color, title, message, fields, timestamp)
+def send_to_slack_blocking(color, title=None, message=None, fields=None, timestamp=None, log=False):
+    slack.write('Cathy', color, title, message, fields, timestamp, log=log)
 
 
 def _notify_score(score):
@@ -120,7 +120,8 @@ def get_index(inbox_item):
         }]
         send_to_slack(COLORS[4],
                       message='알림 메시지의 경고 단계를 추정할 수 없습니다.',
-                      fields=fields)
+                      fields=fields,
+                      log=True)
         return 4
 
 

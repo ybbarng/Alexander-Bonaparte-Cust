@@ -10,13 +10,15 @@ from abcust.celery import app
 load_dotenv()
 
 WEBHOOK_URL = os.getenv('SLACK_WEBHOOK_URL')
+LOG_URL = os.getenv('SLACK_LOG_URL')
 
 
 @app.task
-def write(name, color, title=None, message=None, fields=None, timestamp=None, title_link=None):
+def write(name, color, title=None, message=None, fields=None, timestamp=None, title_link=None, log=True):
     # color: good(#2EB886), warning(#DAA038), danger(#A30200), #439FE0
-    if not WEBHOOK_URL:
-        raise ValueError('Invalid slack webook_url: {}'.format(WEBHOOK_URL))
+    url = LOG_URL if log else WEBHOOK_URL
+    if not url:
+        raise ValueError('Invalid slack webook_url: {}'.format(url))
     headers = {
         'Content-Type': 'application/json'
     }
@@ -42,7 +44,7 @@ def write(name, color, title=None, message=None, fields=None, timestamp=None, ti
     if timestamp:
         payload['attachments'][0]['ts'] = timestamp
 
-    response = requests.post(WEBHOOK_URL, headers=headers, data=json.dumps(payload))
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
     if response.status_code != 200:
         raise ValueError('Request to slack returned an error: ({}, {})'.format(response.status_code, response.text))
 

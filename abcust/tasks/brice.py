@@ -14,8 +14,8 @@ SWITCHER_MAC_ADDRESS = os.getenv('SWITCHER_MAC_ADDRESS')
 SWITCHER_SHARE_CODE = os.getenv('SWITCHER_SHARE_CODE')
 
 
-def notify(message):
-    slack.write.delay('Brice', 'good', message=message)
+def notify(message, log=True):
+    slack.write.delay('Brice', 'good', message=message, log=log)
 
 
 def manage_switch(switch_index, on=True):
@@ -60,7 +60,7 @@ def get_battery():
     switcher = Switcher(SWITCHER_MAC_ADDRESS, SWITCHER_SHARE_CODE)
     battery = switcher.get_battery()
     switcher.disconnect()
-    notify('배터리가 {}% 남았습니다.'.format(battery))
+    notify('배터리가 {}% 남았습니다.'.format(battery), log=False)
     return battery
 
 
@@ -69,5 +69,5 @@ def get_time():
     switcher = Switcher(SWITCHER_MAC_ADDRESS, SWITCHER_SHARE_CODE)
     time = switcher.get_time()
     switcher.disconnect()
-    notify('현재 시간이 \'{}\'으로 설정되어 있습니다.'.format(time))
+    notify('현재 시간이 \'{}\'으로 설정되어 있습니다.'.format(time), log=False)
     return time

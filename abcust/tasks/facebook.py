@@ -21,7 +21,8 @@ def on_entry(entry):
         'good',
         message,
         entry['content'],
-        title_link=entry['url'])
+        title_link=entry['url'],
+        log=False)
     database.add(hash_key)
     save_database(database, entry['name'])
 

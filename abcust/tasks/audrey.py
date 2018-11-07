@@ -13,7 +13,7 @@ AUDREY_MAC_ADDRESS = os.getenv('AUDREY_MAC_ADDRESS')
 
 
 def notify(message):
-    slack.write.delay('Audrey', 'good', message=message)
+    slack.write.delay('Audrey', 'good', message=message, log=True)
 
 
 @app.task
