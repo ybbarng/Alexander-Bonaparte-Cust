@@ -90,7 +90,6 @@ def action_audrey(request):
     else:
         my_actions[command].delay()
     response = {
-        'response_type': 'in_channel',
         'text': 'Audrey에게 명령을 전달했습니다.',
     }
     return jsonify(response)
@@ -113,7 +112,6 @@ def action_brice(request):
         }
         my_actions[command].delay()
     response = {
-        'response_type': 'in_channel',
         'text': 'Brice에게 명령을 전달했습니다.',
     }
     return jsonify(response)
@@ -126,7 +124,6 @@ def action_cathy(request):
     }
     my_actions[command].delay()
     response = {
-        'response_type': 'in_channel',
         'text': 'Cathy에게 명령을 전달했습니다.',
     }
     return jsonify(response)
@@ -136,7 +133,6 @@ def action_tts(request):
     message = request.form['text']
     tts.get_voice.delay(message, False, True)
     response = {
-        'response_type': 'in_channel',
         'text': '"{}"의 음성 변환을 시도합니다.'.format(message),
     }
     return jsonify(response)
