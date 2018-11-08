@@ -18,7 +18,7 @@ load_dotenv()
 signed_secret = os.getenv('SLACK_SIGNING_SECRET')
 
 
-slack = Blueprint('slack', __name__)
+slack = Blueprint('slack_actions', __name__)
 
 
 def verify_slack_request(signed_secret):

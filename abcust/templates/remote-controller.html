@@ -1,0 +1,153 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    width: 420px;
+    margin: auto;
+}
+#remocon {
+    box-sizing: border-box;
+    margin: auto;
+    border: 1px solid #eee;
+    padding: 0 30px;
+}
+#footnote {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 20px;
+}
+#abc {
+    width: 150px;
+    height: 150px;
+}
+#abc_script {
+    position: relative;
+    margin-right: 30px;
+}
+.quote {
+    font-size: 70px;
+    line-height: 70px;
+    height: 70px;
+}
+.quote.open {
+    position:absolute;
+    top: -10px;
+    left:-30px;
+}
+.quote.close {
+    position:absolute;
+    bottom: -65px;
+    right: -30px;
+}
+@media screen and (max-width: 480px) {
+    body {
+        width: 100%;
+    }
+    #abc {
+        width: 100px;
+        height: 100px;
+    }
+    #abc_script {
+        padding-top: 20px;
+    }
+}
+</style>
+<header>
+    <h2>못생긴 리모컨</h2>
+</header>
+
+<div id="remocon">
+    <h3>Audrey</h3>
+    <div>
+        <button id="audrey-on">에어컨 켜기</button>
+        <button id="audrey-off">에어컨 끄기</button>
+    </div>
+    <div>
+        <button id="audrey-power-on">파워모드 켜기</button>
+        <button id="audrey-power-off">파워모드 끄기</button>
+    </div>
+
+    <h3>Brice</h3>
+    <div>
+        <button id="brice-switch-on">모든 전등 켜기</button>
+        <button id="brice-switch-off">모든 전등 끄기</button>
+    </div>
+    <div>
+        <button id="brice-switch-on-1">1번 전등 켜기</button>
+        <button id="brice-switch-off-1">1번 전등 끄기</button>
+    </div>
+    <div>
+        <button id="brice-switch-on-2">2번 전등 켜기</button>
+        <button id="brice-switch-off-2">2번 전등 끄기</button>
+    </div>
+
+    <h3>Cathy</h3>
+    <p>To be continued...</p>
+</div>
+
+<div id="footnote">
+<img id="abc" src="{{ url_for('static', filename='abc.png') }}" alt="abc" />
+<blockquote id="abc_script">
+<div class="quote open">&ldquo;</div>
+흠..리모컨이 좀 못생겼는데, 당분간은 어쩔 수가 없군요. 일단 쓰고 계시면 더 멋있는 녀석으로 준비해서 드리겠습니다.
+<div class="quote close">&rdquo;</div>
+</blockquote>
+</div>
+<script>
+function request(url, method, params) {
+    return fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: method,
+        body: JSON.stringify(params)
+    });
+}
+
+function getElement(id) {
+    return document.getElementById(id);
+}
+
+getElement('audrey-on').onclick = function(e) {
+    request('/cust/api/audrey', 'POST', {'on': true});
+}
+
+getElement('audrey-off').onclick = function(e) {
+    request('/cust/api/audrey', 'POST', {'on': false});
+}
+
+getElement('audrey-power-on').onclick = function(e) {
+    request('/cust/api/audrey/power', 'POST', {'on': true});
+}
+
+getElement('audrey-power-off').onclick = function(e) {
+    request('/cust/api/audrey/power', 'POST', {'on': false});
+}
+
+getElement('brice-switch-on').onclick = function(e) {
+    request('/cust/api/brice/switch/', 'POST', {'on': true});
+}
+
+getElement('brice-switch-off').onclick = function(e) {
+    request('/cust/api/brice/switch/', 'POST', {'on': false});
+}
+
+getElement('brice-switch-on-1').onclick = function(e) {
+    request('/cust/api/brice/switch/1', 'POST', {'on': true});
+}
+
+getElement('brice-switch-off-1').onclick = function(e) {
+    request('/cust/api/brice/switch/1', 'POST', {'on': false});
+}
+
+getElement('brice-switch-on-2').onclick = function(e) {
+    request('/cust/api/brice/switch/2', 'POST', {'on': true});
+}
+
+getElement('brice-switch-off-2').onclick = function(e) {
+    request('/cust/api/brice/switch/2', 'POST', {'on': false});
+}
+</script>
