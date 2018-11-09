@@ -55,9 +55,16 @@ header {
     margin: auto;
     margin-top: 20px;
 }
+figure {
+    margin: 0;
+}
 #abc {
     width: 150px;
     height: 150px;
+}
+#abc_name {
+    font-size: 12px;
+    text-align: center;
 }
 #abc_script {
     position: relative;
@@ -129,7 +136,10 @@ header {
 </div>
 
 <div id="footnote">
+<figure>
 <img id="abc" src="{{ url_for('static', filename='abc.png') }}" alt="abc" />
+<figcaption id="abc_name">Alexander Bonaparte Cust</figcaption>
+</figure>
 <blockquote id="abc_script">
 <div class="quote open">&ldquo;</div>
 흠..이건 좀 못생겼는데, 당분간은 어쩔 수가 없군요. 일단 쓰고 계시면 더 멋있는 녀석으로 준비해서 드리겠습니다.
