@@ -3,12 +3,12 @@
     "short_name": "못생긴 리모컨",
     "icons": [
         {
-            "src": "/cust/static/remote-controller/favicon/android-chrome-192x192.png",
+            "src": "/abc/static/remote-controller/favicon/android-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/cust/static/remote-controller/favicon/android-chrome-512x512.png",
+            "src": "/abc/static/remote-controller/favicon/android-chrome-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }

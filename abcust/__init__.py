@@ -30,7 +30,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/cust')
+    app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/abc')
     app.secret_key = bytes.fromhex(os.getenv('FLASK_SECRET_KEY_HEX'))
 
     app.register_blueprint(api)
