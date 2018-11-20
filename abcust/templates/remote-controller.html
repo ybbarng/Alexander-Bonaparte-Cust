@@ -175,6 +175,29 @@
             background-size: 100%;
             transition: background 0s;
         }
+        #brice-head {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        #brice-head .name {
+            flex-grow: 1;
+        }
+        #brice-battery {
+            display: none;
+            align-items: center;
+            font-weight: normal;
+            font-size: 10px;
+        }
+        #brice-battery .icon {
+            height: 15px;
+            width: 15px;
+            margin-right: 2px;
+            margin-bottom: 2px;
+        }
+        #brice-battery .unit {
+            padding-left: 2px;
+        }
         #footnote {
             display: flex;
             flex-direction: row;
@@ -257,7 +280,14 @@
                 <button class="on" id="audrey-power-on">파워모드 켜기</button>
             </div>
 
-            <h3><img class="icon" alt="전등" src="{{ url_for('static', filename='remote-controller/icon/lamp.svg') }}" />Brice</h3>
+            <h3 id="brice-head">
+                <div class="name"><img class="icon" alt="전등" src="{{ url_for('static', filename='remote-controller/icon/lamp.svg') }}" />Brice</div>
+                <div id="brice-battery">
+                    <img class="icon" alt="배터리" src="{{ url_for('static', filename='remote-controller/icon/battery.svg') }}" />
+                    <span class="number"></span>
+                    <span class="unit">%</span>
+                </div>
+            </h3>
             <div class="button-group">
                 <button class="off" id="brice-switch-off">모든 전등 끄기</button>
                 <button class="on" id="brice-switch-on">모든 전등 켜기</button>
@@ -327,6 +357,7 @@
         <div id="footer">
             The air conditioner icon is made by <a href="https://www.freepik.com" title="Freepik" target="_blank" rel="noopener">Freepik</a>.<br>
             The lamp icon is made by <a href="https://www.flaticon.com/authors/icongeek26" title="Icongeek26" target="_blank" rel="noopener">Icongeek26</a>.<br>
+            The battery icon is made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a>.<br>
             These icons are from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noopener">www.flaticon.com</a><br>
             and licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener">CC 3.0 BY</a>.
         </div>
@@ -390,7 +421,6 @@
                 return response.json();
             }).then(function(response) {
                 score = response.data;
-                console.log(score);
                 setData('total_score', score.total_score);
                 setData('temperature', score.temperature);
                 setData('humidity', score.humidity);
@@ -419,6 +449,17 @@
 
         setInterval(loadCathyData, 60 * 1000);
         loadCathyData();
+
+        function loadBriceBattery() {
+            request('/abc/api/brice/battery', 'GET').then(function(response) {
+                console.log(response);
+                return response.json();
+            }).then(function(response) {
+                getElement('brice-battery').querySelector('.number').innerHTML = response.data;
+                getElement('brice-battery').style.display = 'flex';
+            });
+        }
+        loadBriceBattery();
         </script>
     </body>
 </html>

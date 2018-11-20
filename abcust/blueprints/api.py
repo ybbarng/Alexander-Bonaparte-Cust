@@ -78,7 +78,7 @@ def api_audrey_raw():
 @api.route('/api/brice/battery', methods=['GET'])
 @login_required
 def api_brice_battery():
-    return jsonify({'ok': True, 'data': brice.get_battery()}),
+    return jsonify({'ok': True, 'data': brice.get_battery()})
 
 
 @api.route('/api/brice/time', methods=['GET'])
