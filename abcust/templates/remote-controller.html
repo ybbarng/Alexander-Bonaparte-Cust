@@ -26,7 +26,7 @@
             text-align: center;
         }
         #remocon {
-            width: 300px;
+            max-width: 300px;
             margin: 20px auto;
             box-sizing: border-box;
             border: 1px solid #eee;
@@ -100,9 +100,11 @@
         .data-head-wrapper {
             display: flex;
             align-content: stretch;
+            flex-wrap: wrap;
         }
         #legend {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
         }
@@ -115,14 +117,15 @@
         }
         .button-group {
             display: flex;
-            flex-direction: row-reverse;
+            flex-direction: row;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
         }
         #footnote {
             display: flex;
-            flex-direction: row-reverse;
+            flex-direction: row;
             justify-content: center;
             align-items: center;
             margin: auto;
@@ -130,6 +133,7 @@
         }
         figure {
             margin: 0;
+            text-align: center;
         }
         #abc {
             width: 150px;
@@ -150,6 +154,7 @@
             font-size: 70px;
             line-height: 70px;
             height: 70px;
+            font-family: serif;
         }
         .quote.open {
             position:absolute;
@@ -175,6 +180,14 @@
                 height: 100px;
             }
         }
+        @media screen and (max-width: 300px) {
+            .data-body-wrapper {
+                flex-wrap: wrap;
+            }
+            #footnote {
+                flex-wrap: wrap;
+            }
+        }
         </style>
     </head>
     <body>
@@ -184,26 +197,26 @@
             </header>
             <h3>Audrey<img class="icon" alt="에어컨" src="{{ url_for('static', filename='remote-controller/icon/air-conditioner.svg') }}" /></h3>
             <div class="button-group">
-                <button id="audrey-on">에어컨 켜기</button>
                 <button id="audrey-off">에어컨 끄기</button>
+                <button id="audrey-on">에어컨 켜기</button>
             </div>
             <div class="button-group">
-                <button id="audrey-power-on">파워모드 켜기</button>
                 <button id="audrey-power-off">파워모드 끄기</button>
+                <button id="audrey-power-on">파워모드 켜기</button>
             </div>
 
             <h3>Brice<img class="icon" alt="전등" src="{{ url_for('static', filename='remote-controller/icon/lamp.svg') }}" /></h3>
             <div class="button-group">
-                <button id="brice-switch-on">모든 전등 켜기</button>
                 <button id="brice-switch-off">모든 전등 끄기</button>
+                <button id="brice-switch-on">모든 전등 켜기</button>
             </div>
             <div class="button-group">
-                <button id="brice-switch-on-1">방 전등 켜기</button>
                 <button id="brice-switch-off-1">방 전등 끄기</button>
+                <button id="brice-switch-on-1">방 전등 켜기</button>
             </div>
             <div class="button-group">
-                <button id="brice-switch-on-2">복도등 켜기</button>
                 <button id="brice-switch-off-2">복도등 끄기</button>
+                <button id="brice-switch-on-2">복도등 켜기</button>
             </div>
 
             <h3>Cathy<img class="icon awair" alt="어웨어" src="{{ url_for('static', filename='remote-controller/icon/awair.svg') }}" /></h3>
@@ -249,15 +262,15 @@
         </div>
 
         <div id="footnote">
-            <figure>
-                <img id="abc" src="{{ url_for('static', filename='abc-150x150.png') }}" alt="abc" />
-                <figcaption id="abc_name" lang="en">Mr. Alexander Bonaparte Cust</figcaption>
-            </figure>
             <blockquote id="abc_script">
                 <div class="quote open">&ldquo;</div>
                 흠..이건 좀 못생겼는데, 당분간은 어쩔 수가 없군요. 일단 쓰고 계시면 더 멋있는 녀석으로 준비해서 드리겠습니다.
                 <div class="quote close">&rdquo;</div>
             </blockquote>
+            <figure>
+                <img id="abc" src="{{ url_for('static', filename='abc-150x150.png') }}" alt="abc" />
+                <figcaption id="abc_name" lang="en">Mr. Alexander Bonaparte Cust</figcaption>
+            </figure>
         </div>
         <div id="footer">
             The air conditioner icon made by <a href="https://www.freepik.com" title="Freepik" target="_blank" rel="noopener">Freepik</a>,<br>
