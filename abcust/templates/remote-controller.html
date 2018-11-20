@@ -296,19 +296,21 @@
         getElement('brice-switch-off-2').onclick = function(e) {
             request('/abc/api/brice/switch/2', 'POST', {'on': false});
         }
-        request('/abc/api/cathy/', 'GET').then(function(response) {
-            return response.json();
-        }).then(function(response) {
-            score = response.data;
-            console.log(score);
-            setData('total_score', score.total_score);
-            setData('temperature', score.temperature);
-            setData('humidity', score.humidity);
-            setData('voc', score.voc);
-            setData('pm25', score.pm25);
-            getElement('cathy-loading').style.display = 'none';
-            getElement('cathy-data').style.display = 'inherit';
-        });
+        function loadCathyData() {
+            request('/abc/api/cathy/', 'GET').then(function(response) {
+                return response.json();
+            }).then(function(response) {
+                score = response.data;
+                console.log(score);
+                setData('total_score', score.total_score);
+                setData('temperature', score.temperature);
+                setData('humidity', score.humidity);
+                setData('voc', score.voc);
+                setData('pm25', score.pm25);
+                getElement('cathy-loading').style.display = 'none';
+                getElement('cathy-data').style.display = 'inherit';
+            });
+        }
 
         function setData(id, data) {
             const element = getElement(id).querySelector('.number');
@@ -326,6 +328,9 @@
             var reg = new RegExp('(\\s|^)color\\d(\\s|$)');
             ele.className = ele.className.replace(reg, ' ');
         }
+
+        setInterval(loadCathyData, 60 * 1000);
+        loadCathyData();
         </script>
     </body>
 </html>
