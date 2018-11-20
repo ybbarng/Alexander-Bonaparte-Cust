@@ -44,6 +44,29 @@
             height: 19px;
             padding: 2px;
         }
+        .data {
+            padding: 2px;
+        }
+        .data label {
+            font-size: 10px;
+            text-align: center;
+        }
+        .data.major .value .number {
+            font-size: 25px;
+        }
+        .data.minor .value .number {
+            font-size: 20px;
+        }
+        .data .value .unit {
+            font-size: 10px;
+        }
+        .data-wrapper {
+            display: flex;
+            align-content: stretch;
+        }
+        .data.minor {
+            width: 59px;
+        }
         .button-group {
             display: flex;
             flex-direction: row-reverse;
@@ -138,7 +161,30 @@
             </div>
 
             <h3>Cathy<img class="icon awair" alt="어웨어" src="{{ url_for('static', filename='remote-controller/icon/awair.svg') }}" /></h3>
-            <p>To be continued...</p>
+            <div>
+                <div class="data major">
+                    <label for="total_score">종합 점수</label>
+                    <div class="value" id="total_score"><span class="number">90</span><span class="unit">점</span></div>
+                </div>
+                <div class="data-wrapper">
+                    <div class="data minor">
+                        <label for="temperature">온도</label>
+                        <div class="value" id="temperature"><span class="number">90</span><span class="unit">℃</span></div>
+                    </div>
+                    <div class="data minor">
+                        <label for="humidity">습도</label>
+                        <div class="value" id="humidity"><span class="number">90</span><span class="unit">%</span></div>
+                    </div>
+                    <div class="data minor">
+                        <label for="voc">VOC</label>
+                        <div class="value" id="voc"><span class="number">90</span><span class="unit">ppb</span></div>
+                    </div>
+                    <div class="data minor">
+                        <label for="pm25">초미세먼지</label>
+                        <div class="value" id="pm25"><span class="number">90</span><span class="unit">µm/m³</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="footnote">
