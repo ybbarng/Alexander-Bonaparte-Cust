@@ -85,7 +85,6 @@ def get_inbox_items(start_dt, end_dt):
     return get_awair().get_inbox_items(start_dt, end_dt, 'ko')
 
 
-@app.task
 def get_inbox_items_batch():
     FILE = 'cathy_last_notified.timestamp'
     MAXIMUM_INTERVAL = 6  # hours
