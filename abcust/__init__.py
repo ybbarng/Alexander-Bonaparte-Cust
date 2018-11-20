@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_dance.contrib.slack import make_slack_blueprint, slack
+from werkzeug.contrib.fixers import ProxyFix
 
 from abcust.blueprints.api import api
 from abcust.blueprints.remote_controller import remote_controller
@@ -19,6 +20,7 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
+    app.wsgi_app = ProxyFix(app.wsgi_app)
     app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/abc')
     app.secret_key = FLASK_SECRET_KEY
 
