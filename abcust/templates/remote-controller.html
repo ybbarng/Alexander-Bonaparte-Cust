@@ -51,11 +51,29 @@
             font-size: 10px;
             text-align: center;
         }
+        .number.color0 {
+            color: #2EB886;
+        }
+        .number.color1 {
+            color: #ABA74D;
+        }
+        .number.color2 {
+            color: #DAA038;
+        }
+        .number.color3 {
+            color: #BF511C;
+        }
+        .number.color4 {
+            color: #A30200;
+        }
         .data.major .value .number {
             font-size: 25px;
         }
+        .data.minor .value {
+            text-align: center;
+        }
         .data.minor .value .number {
-            font-size: 20px;
+            font-size: 15px;
         }
         .data .value .unit {
             font-size: 10px;
@@ -258,6 +276,34 @@
 
         getElement('brice-switch-off-2').onclick = function(e) {
             request('/abc/api/brice/switch/2', 'POST', {'on': false});
+        }
+        request('/abc/api/cathy/', 'GET').then(function(response) {
+            return response.json();
+        }).then(function(response) {
+            score = response.data;
+            console.log(score);
+            setData('total_score', score.total_score);
+            setData('temperature', score.temperature);
+            setData('humidity', score.humidity);
+            setData('voc', score.voc);
+            setData('pm25', score.pm25);
+        });
+
+        function setData(id, data) {
+            const element = getElement(id).querySelector('.number');
+            element.innerHTML = data.score;
+            setColorIndex(element, data.color);
+            getElement(id).querySelector('.number').innerHTML = data.score;
+        }
+
+        function setColorIndex(ele, colorIndex) {
+            removeColorIndex(ele);
+            ele.className += " color" + colorIndex;
+        }
+
+        function removeColorIndex(ele) {
+            var reg = new RegExp('(\\s|^)color\\d(\\s|$)');
+            ele.className = ele.className.replace(reg, ' ');
         }
         </script>
     </body>

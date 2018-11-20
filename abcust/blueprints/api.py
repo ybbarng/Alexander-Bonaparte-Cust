@@ -6,6 +6,7 @@ from flask import abort, Blueprint, jsonify, make_response, request
 from abcust.auth import authorized
 from abcust.tasks import audrey
 from abcust.tasks import brice
+from abcust.tasks import cathy
 from abcust.tasks import slack
 from abcust.tasks import tts
 
@@ -102,3 +103,32 @@ def api_brice_switch(switch_id=None):
         else:
             brice.turn_off_all()
     return jsonify({'ok': True})
+
+
+@api.route('/api/cathy/', methods=['GET'])
+@login_required
+def api_cathy():
+    score = cathy.get_score()
+    response = {
+        'total_score': {
+            'score': score.score,
+            'color': cathy.get_color_of_total_score(score.score)
+        },
+        'temperature': {
+            'score': score.sensor.temp,
+            'color': score.index.temp
+        },
+        'humidity': {
+            'score': score.sensor.humidity,
+            'color': score.index.humidity
+        },
+        'voc': {
+            'score': score.sensor.voc,
+            'color': score.index.voc
+        },
+        'pm25': {
+            'score': score.sensor.pm25,
+            'color': score.index.pm25
+        },
+    }
+    return jsonify({'ok': True, 'data': response})

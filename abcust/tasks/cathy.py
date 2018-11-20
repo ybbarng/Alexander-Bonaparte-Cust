@@ -46,12 +46,17 @@ def _notify_score(score):
             'short': True,
         },
     ]
-    color_index = 0
-    if score.score <= 80:
-        color_index = 4
-    elif score.score <= 90:
-        color_index = 2
+    color_index = get_color_of_total_score(score.score)
     send_to_slack(COLORS[color_index], None, message, fields, score.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
+
+
+def get_color_of_total_score(total_score):
+    color_index = 0
+    if total_score <= 80:
+        color_index = 4
+    elif total_score <= 90:
+        color_index = 2
+    return color_index
 
 
 def get_score():
