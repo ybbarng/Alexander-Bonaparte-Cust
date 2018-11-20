@@ -16,9 +16,9 @@ app.conf.beat_schedule = {
         'task': 'abcust.tasks.cron.get_awair_inbox_items',
         'schedule': crontab(minute='*/5'),
     },
-    'check-cold-enough-to-turn-off-aircon-during-sleep': {
+    'check-cold-enough-to-turn-off-aircon-every-10-mins': {
         'task': 'abcust.tasks.cron.turn_off_aircon_when_cold',
-        'schedule': crontab(minute='0', hour='3-9'),
+        'schedule': crontab(minute='*/10'),
     },
 }
 
