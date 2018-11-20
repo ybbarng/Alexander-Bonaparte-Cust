@@ -61,23 +61,26 @@
             font-size: 10px;
             text-align: center;
         }
-        .number.color0 {
+        .color0 {
             color: #2EB886;
         }
-        .number.color1 {
+        .color1 {
             color: #ABA74D;
         }
-        .number.color2 {
+        .color2 {
             color: #DAA038;
         }
-        .number.color3 {
+        .color3 {
             color: #BF511C;
         }
-        .number.color4 {
+        .color4 {
             color: #A30200;
         }
         .unit {
             padding-left: 3px;
+        }
+        .data.major {
+            flex-grow: 1;
         }
         .data.major .value .number {
             font-size: 25px;
@@ -91,7 +94,16 @@
         .data .value .unit {
             font-size: 10px;
         }
-        .data-wrapper {
+        .data-head-wrapper {
+            display: flex;
+            align-content: stretch;
+        }
+        #legend {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .data-body-wrapper {
             display: flex;
             align-content: stretch;
         }
@@ -199,11 +211,20 @@
                 </div>
             </div>
             <div id="cathy-data">
-                <div class="data major">
-                    <label for="total_score">종합 점수</label>
-                    <div class="value" id="total_score"><span class="number">90</span><span class="unit">점</span></div>
+                <div class="data-head-wrapper">
+                    <div class="data major">
+                        <label for="total_score">종합 점수</label>
+                        <div class="value" id="total_score"><span class="number">90</span><span class="unit">점</span></div>
+                    </div>
+                    <div id="legend">
+                        <span class="color4">⬤</span>
+                        <span class="color3">⬤</span>
+                        <span class="color2">⬤</span>
+                        <span class="color1">⬤</span>
+                        <span class="color0">⬤</span>
+                    </div>
                 </div>
-                <div class="data-wrapper">
+                <div class="data-body-wrapper">
                     <div class="data minor">
                         <label for="temperature">온도</label>
                         <div class="value" id="temperature"><span class="number">90</span><span class="unit">℃</span></div>
