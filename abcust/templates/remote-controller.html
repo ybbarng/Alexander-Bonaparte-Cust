@@ -32,6 +32,7 @@
             border: 1px solid #eee;
             padding: 0 30px;
             padding-bottom: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         }
         #remocon h3 {
             margin-bottom: 5px;
@@ -136,11 +137,14 @@
             display: inline-block;
             font-size: 12px;
             width: 115px;
-            transition: background 0.8s;
+            transition: background 0.8s, box-shadow 0.4s;
             background-position: center;
-            box-shadow: 0 0 4px #999;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
             outline: none;
             cursor: pointer;
+        }
+        button:hover {
+            box-shadow: 0 10px 28px rgba(0,0,0,0.25), 0 6px 10px rgba(0,0,0,0.22);
         }
         button.on {
             background-color: #4CAF4F; /* Green */
