@@ -1,28 +1,20 @@
 import json
-import os
 from datetime import datetime
 from datetime import timedelta
 
 from awair import Awair
 from awair.enums import DeviceType
-from dotenv import load_dotenv
 
+from abcust.settings import AWAIR_EMAIL, AWAIR_PASSWORD, AWAIR_ACCESS_TOKEN, AWAIR_DEVICE_ID
 from abcust.celery import app
 from abcust.tasks import slack
 
-
-load_dotenv()
-
-EMAIL = os.getenv('AWAIR_EMAIL')
-PASSWORD = os.getenv('AWAIR_PASSWORD')
-ACCESS_TOKEN = os.getenv('AWAIR_ACCESS_TOKEN')
-DEVICE_ID = os.getenv('AWAIR_MINT_DEVICE_ID')
 
 COLORS = ['#2EB886', '#ABA74D', '#DAA038', '#BF511C', '#A30200']
 
 
 def get_awair():
-    return Awair(email=EMAIL, password=PASSWORD, access_token=ACCESS_TOKEN)
+    return Awair(email=AWAIR_EMAIL, password=AWAIR_PASSWORD, access_token=AWAIR_ACCESS_TOKEN)
 
 
 def send_to_slack(color, title=None, message=None, fields=None, timestamp=None, log=False):
@@ -63,7 +55,7 @@ def _notify_score(score):
 
 
 def get_score():
-    return get_awair().get_score(DeviceType.AWAIR_MINT, DEVICE_ID)
+    return get_awair().get_score(DeviceType.AWAIR_MINT, AWAIR_DEVICE_ID)
 
 
 @app.task
@@ -76,7 +68,7 @@ def notify_score():
 def get_timelines():
     start_dt = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     end_dt = start_dt + timedelta(days=1)
-    timelines = get_awair().get_timelines(DeviceType.AWAIR_MINT, DEVICE_ID, start_dt, end_dt)
+    timelines = get_awair().get_timelines(DeviceType.AWAIR_MINT, AWAIR_DEVICE_ID, start_dt, end_dt)
     for timeline in timelines:
         print(timeline.timestamp)
         print(timeline.score)

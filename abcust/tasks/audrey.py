@@ -1,15 +1,7 @@
-import os
-
-from dotenv import load_dotenv
-
 from abcust.celery import app
+from abcust.settings import AUDREY_MAC_ADDRESS
 from abcust.lib.audrey import Audrey
 from abcust.tasks import slack
-
-
-load_dotenv()
-
-AUDREY_MAC_ADDRESS = os.getenv('AUDREY_MAC_ADDRESS')
 
 
 def notify(message):

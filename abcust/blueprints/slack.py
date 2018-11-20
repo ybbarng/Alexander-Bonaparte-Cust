@@ -2,26 +2,21 @@
 from functools import wraps
 import hmac
 import hashlib
-import os
 from time import time
 
-from dotenv import load_dotenv
 from flask import abort, Blueprint, jsonify, make_response, request
 
+from abcust.settings import SLACK_SIGNING_SECRET
 from abcust.tasks import audrey
 from abcust.tasks import brice
 from abcust.tasks import cathy
 from abcust.tasks import tts
 
 
-load_dotenv()
-signed_secret = os.getenv('SLACK_SIGNING_SECRET')
-
-
 slack = Blueprint('slack_actions', __name__)
 
 
-def verify_slack_request(signed_secret):
+def verify_slack_request(signing_secret):
     def verify_slack_request_decorator(f):
         def is_old(request):
             # The request timestamp is more than five minutes from local time.
@@ -36,7 +31,7 @@ def verify_slack_request(signed_secret):
             body = request.get_data()
             base_string = ':'.join([version, request_timestamp, body.decode('utf-8')])
             calculated_hash = version + '=' + hmac.new(
-                signed_secret.encode('utf-8'),
+                signing_secret.encode('utf-8'),
                 base_string.encode('utf-8'),
                 hashlib.sha256
             ).hexdigest()
@@ -58,7 +53,7 @@ def verify_slack_request(signed_secret):
 
 
 @slack.route('/slack', methods=['POST'])
-@verify_slack_request(signed_secret)
+@verify_slack_request(SLACK_SIGNING_SECRET)
 def on_slack():
     command = request.form['command'][1:]
     action = None

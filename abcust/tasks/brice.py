@@ -1,17 +1,9 @@
 from functools import wraps
-import os
-
-from dotenv import load_dotenv
 
 from abcust.celery import app
 from abcust.lib.switcher import Switcher
+from abcust.settings import SWITCHER_MAC_ADDRESS, SWITCHER_SHARE_CODE
 from abcust.tasks import slack
-
-
-load_dotenv()
-
-SWITCHER_MAC_ADDRESS = os.getenv('SWITCHER_MAC_ADDRESS')
-SWITCHER_SHARE_CODE = os.getenv('SWITCHER_SHARE_CODE')
 
 
 def notify(message, log=True):
