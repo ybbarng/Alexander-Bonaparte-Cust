@@ -68,6 +68,13 @@
         .data .number {
             font-weight: bold;
         }
+        #legend span {
+            transition: transform 0.4s, text-shadow 0.4s;
+        }
+        #legend span:hover {
+            transform: scale(2, 2);
+            text-shadow: 0 3px 6px rgba(0,0,0,0.25), 0 3px 6px rgba(0,0,0,0.22);
+        }
         .color0 {
             color: #2EB886;
         }
@@ -137,7 +144,7 @@
             display: inline-block;
             font-size: 12px;
             width: 115px;
-            transition: background 0.8s, box-shadow 0.4s;
+            transition: background 0.4s, box-shadow 0.4s;
             background-position: center;
             box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
             outline: none;
@@ -278,11 +285,11 @@
                         <div class="value" id="total_score"><span class="number">90</span><span class="unit">점</span></div>
                     </div>
                     <div id="legend">
-                        <span class="color4">⬤</span>
-                        <span class="color3">⬤</span>
-                        <span class="color2">⬤</span>
-                        <span class="color1">⬤</span>
-                        <span class="color0">⬤</span>
+                        <span class="color4" title="최악">⬤</span>
+                        <span class="color3" title="아주 나쁨">⬤</span>
+                        <span class="color2" title="나쁨">⬤</span>
+                        <span class="color1" title="보통">⬤</span>
+                        <span class="color0" title="좋음">⬤</span>
                     </div>
                 </div>
                 <div class="data-body-wrapper">
