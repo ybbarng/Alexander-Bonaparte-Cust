@@ -35,15 +35,18 @@
         }
         #remocon h3 {
             margin-bottom: 5px;
+            line-height: 23px;
         }
         #remocon .icon {
             height: 23px;
+            width: 23px;
             vertical-align: middle;
-            margin-left: 10px;
+            margin-right: 6px;
         }
 
         #remocon .icon.awair {
             height: 19px;
+            width: 19px;
             padding: 2px;
         }
         #cathy-loading {
@@ -233,7 +236,7 @@
             <header>
                 <h2>못생긴 리모컨</h2>
             </header>
-            <h3>Audrey<img class="icon" alt="에어컨" src="{{ url_for('static', filename='remote-controller/icon/air-conditioner.svg') }}" /></h3>
+            <h3><img class="icon" alt="에어컨" src="{{ url_for('static', filename='remote-controller/icon/air-conditioner.svg') }}" />Audrey</h3>
             <div class="button-group">
                 <button class="off" id="audrey-off">에어컨 끄기</button>
                 <button class="on" id="audrey-on">에어컨 켜기</button>
@@ -243,7 +246,7 @@
                 <button class="on" id="audrey-power-on">파워모드 켜기</button>
             </div>
 
-            <h3>Brice<img class="icon" alt="전등" src="{{ url_for('static', filename='remote-controller/icon/lamp.svg') }}" /></h3>
+            <h3><img class="icon" alt="전등" src="{{ url_for('static', filename='remote-controller/icon/lamp.svg') }}" />Brice</h3>
             <div class="button-group">
                 <button class="off" id="brice-switch-off">모든 전등 끄기</button>
                 <button class="on" id="brice-switch-on">모든 전등 켜기</button>
@@ -257,7 +260,7 @@
                 <button class="on" id="brice-switch-on-2">복도등 켜기</button>
             </div>
 
-            <h3>Cathy<img class="icon awair" alt="어웨어" src="{{ url_for('static', filename='remote-controller/icon/awair.svg') }}" /></h3>
+            <h3><img class="icon awair" alt="어웨어" src="{{ url_for('static', filename='remote-controller/icon/awair.svg') }}" />Cathy</h3>
             <div id="cathy-loading">
                 <div class="bounceball"></div>
                 <div>
