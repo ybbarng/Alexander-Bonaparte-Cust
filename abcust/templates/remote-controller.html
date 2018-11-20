@@ -389,9 +389,8 @@
 
         function setData(id, data) {
             const element = getElement(id).querySelector('.number');
-            element.innerHTML = data.score;
+            element.innerHTML = Math.round(data.score * 10) / 10;
             setColorIndex(element, data.color);
-            getElement(id).querySelector('.number').innerHTML = data.score;
         }
 
         function setColorIndex(ele, colorIndex) {
