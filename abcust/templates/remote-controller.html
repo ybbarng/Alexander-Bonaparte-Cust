@@ -125,6 +125,7 @@
         }
         button {
             border: none;
+            border-radius: 2px;
             color: white;
             padding: 10px 22px;
             text-align: center;
@@ -132,12 +133,33 @@
             display: inline-block;
             font-size: 12px;
             width: 115px;
+            transition: background 0.8s;
+            background-position: center;
+            box-shadow: 0 0 4px #999;
+            outline: none;
+            cursor: pointer;
         }
         button.on {
-            background-color: #4CAF50; /* Green */
+            background-color: #4CAF4F; /* Green */
+        }
+        button.on:hover {
+            background: #66BB69 radial-gradient(circle, transparent 1%, #66BB69 1%) center/15000%;
+        }
+        button.on:active {
+            background-color: #A5D6A7;
+            background-size: 100%;
+            transition: background 0s;
         }
         button.off {
-            background-color: #f44336; /* Red */
+            background-color: #E53935; /* Red */
+        }
+        button.off:hover {
+            background: #EF5350 radial-gradient(circle, transparent 1%, #EF5350 1%) center/15000%;
+        }
+        button.off:active {
+            background-color: #EF9A9A;
+            background-size: 100%;
+            transition: background 0s;
         }
         #footnote {
             display: flex;
