@@ -100,7 +100,7 @@ def action_brice(request):
             brice.turn_off.delay(switch)
     else:
         my_actions = {
-            'brice_battery': brice.get_battery,
+            'brice_battery': brice.notify_battery,
             'brice_time': brice.get_time,
             'brice_turn_on_all': brice.turn_on_all,
             'brice_turn_off_all': brice.turn_off_all,

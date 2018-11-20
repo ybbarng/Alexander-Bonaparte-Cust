@@ -47,14 +47,18 @@ def turn_off_all():
     manage_switch_all(False)
 
 
-@app.task
 def get_battery():
     switcher = Switcher(SWITCHER_MAC_ADDRESS, SWITCHER_SHARE_CODE)
     battery = switcher.get_battery()
     switcher.disconnect()
-    notify('배터리가 {}% 남았습니다.'.format(battery), log=False)
+    return battery
     return battery
 
+@app.task
+def notify_battery():
+    battery = get_battery()
+    notify('배터리가 {}% 남았습니다.'.format(battery), log=False)
+    return battery
 
 @app.task
 def get_time():
