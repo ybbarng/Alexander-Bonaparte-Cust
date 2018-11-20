@@ -15,6 +15,7 @@
         <meta name="msapplication-config" content="{{ url_for('static', filename='remote-controller/favicon/browserconfig.xml') }}" />
         <meta name="msapplication-TileColor" content="#5bbad5">
         <meta name="theme-color" content="#5bbad5">
+        <link rel="stylesheet" href="{{ url_for('static', filename='bounceball.css') }}" />
         <style>
         body {
             width: 420px;
@@ -30,6 +31,7 @@
             box-sizing: border-box;
             border: 1px solid #eee;
             padding: 0 30px;
+            padding-bottom: 10px;
         }
         #remocon h3 {
             margin-bottom: 5px;
@@ -43,6 +45,14 @@
         #remocon .icon.awair {
             height: 19px;
             padding: 2px;
+        }
+        #cathy-loading {
+            font-size: 15px;
+            text-align: center;
+            padding: 8px 0;
+        }
+        #cathy-data {
+            display: none;
         }
         .data {
             padding: 2px;
@@ -182,7 +192,13 @@
             </div>
 
             <h3>Cathy<img class="icon awair" alt="어웨어" src="{{ url_for('static', filename='remote-controller/icon/awair.svg') }}" /></h3>
-            <div>
+            <div id="cathy-loading">
+                <div class="bounceball"></div>
+                <div>
+                    현재 공기질 데이터를<br> 불러오는 중입니다.
+                </div>
+            </div>
+            <div id="cathy-data">
                 <div class="data major">
                     <label for="total_score">종합 점수</label>
                     <div class="value" id="total_score"><span class="number">90</span><span class="unit">점</span></div>
@@ -290,6 +306,8 @@
             setData('humidity', score.humidity);
             setData('voc', score.voc);
             setData('pm25', score.pm25);
+            getElement('cathy-loading').style.display = 'none';
+            getElement('cathy-data').style.display = 'inherit';
         });
 
         function setData(id, data) {
