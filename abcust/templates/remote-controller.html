@@ -123,6 +123,22 @@
             align-items: center;
             padding: 10px 0;
         }
+        button {
+            border: none;
+            color: white;
+            padding: 10px 22px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            width: 115px;
+        }
+        button.on {
+            background-color: #4CAF50; /* Green */
+        }
+        button.off {
+            background-color: #f44336; /* Red */
+        }
         #footnote {
             display: flex;
             flex-direction: row;
@@ -197,26 +213,26 @@
             </header>
             <h3>Audrey<img class="icon" alt="에어컨" src="{{ url_for('static', filename='remote-controller/icon/air-conditioner.svg') }}" /></h3>
             <div class="button-group">
-                <button id="audrey-off">에어컨 끄기</button>
-                <button id="audrey-on">에어컨 켜기</button>
+                <button class="off" id="audrey-off">에어컨 끄기</button>
+                <button class="on" id="audrey-on">에어컨 켜기</button>
             </div>
             <div class="button-group">
-                <button id="audrey-power-off">파워모드 끄기</button>
-                <button id="audrey-power-on">파워모드 켜기</button>
+                <button class="off" id="audrey-power-off">파워모드 끄기</button>
+                <button class="on" id="audrey-power-on">파워모드 켜기</button>
             </div>
 
             <h3>Brice<img class="icon" alt="전등" src="{{ url_for('static', filename='remote-controller/icon/lamp.svg') }}" /></h3>
             <div class="button-group">
-                <button id="brice-switch-off">모든 전등 끄기</button>
-                <button id="brice-switch-on">모든 전등 켜기</button>
+                <button class="off" id="brice-switch-off">모든 전등 끄기</button>
+                <button class="on" id="brice-switch-on">모든 전등 켜기</button>
             </div>
             <div class="button-group">
-                <button id="brice-switch-off-1">방 전등 끄기</button>
-                <button id="brice-switch-on-1">방 전등 켜기</button>
+                <button class="off" id="brice-switch-off-1">방 전등 끄기</button>
+                <button class="on" id="brice-switch-on-1">방 전등 켜기</button>
             </div>
             <div class="button-group">
-                <button id="brice-switch-off-2">복도등 끄기</button>
-                <button id="brice-switch-on-2">복도등 켜기</button>
+                <button class="off" id="brice-switch-off-2">복도등 끄기</button>
+                <button class="on" id="brice-switch-on-2">복도등 켜기</button>
             </div>
 
             <h3>Cathy<img class="icon awair" alt="어웨어" src="{{ url_for('static', filename='remote-controller/icon/awair.svg') }}" /></h3>
