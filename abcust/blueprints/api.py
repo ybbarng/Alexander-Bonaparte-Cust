@@ -16,7 +16,7 @@ api = Blueprint('api', __name__)
 def login_required(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-        if not authorized():
+        if not authorized(request):
             abort(make_response(jsonify(message="Unauthorized"), 401))
         return function(*args, **kwargs)
     return wrapper
