@@ -94,6 +94,7 @@ def save_time_to_cache(time):
     save_data_to_cache('time', time)
 
 
+@app.task
 def get_battery():
     battery = load_battery_from_cache()
     if battery:

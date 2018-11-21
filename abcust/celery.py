@@ -10,6 +10,12 @@ app = Celery('abcust',
              include=('abcust.tasks.facebook', 'abcust.tasks.cron'))
 
 app.conf.timezone = 'Asia/Seoul'
+app.conf.task_default_queue = 'abcust'
+
+app.conf.task_routes = {
+    'abcust.tasks.audrey.*': {'queue': 'ble'},
+    'abcust.tasks.brice.*': {'queue': 'ble'},
+}
 
 app.conf.beat_schedule = {
     'check-awair-notification-every-5-mins': {

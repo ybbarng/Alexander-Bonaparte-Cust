@@ -64,6 +64,32 @@ def get_score():
 
 
 @app.task
+def get_serializable_score():
+    score = get_score()
+    return {
+        'total_score': {
+            'score': score.score,
+            'color': get_color_of_total_score(score.score)
+        },
+        'temperature': {
+            'score': score.sensor.temp,
+            'color': score.index.temp
+        },
+        'humidity': {
+            'score': score.sensor.humidity,
+            'color': score.index.humidity
+        },
+        'voc': {
+            'score': score.sensor.voc,
+            'color': score.index.voc
+        },
+        'pm25': {
+            'score': score.sensor.pm25,
+            'color': score.index.pm25
+        },
+    }
+
+@app.task
 def notify_score():
     _notify_score(get_score())
     return True
