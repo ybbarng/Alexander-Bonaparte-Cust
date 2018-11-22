@@ -12,8 +12,6 @@ def get_awair_inbox_items():
 @app.task
 def turn_off_aircon_when_cold():
     COLD_THRESHOLD = 21
-    message = '너무 춥지 않은지 체크합니다.'
-    slack.write.delay('A. B. Cust', 'danger', message=message, log=True)
     score = cathy.get_score()
     if score.sensor.temp <= COLD_THRESHOLD:
         audrey.turn_off.delay()
