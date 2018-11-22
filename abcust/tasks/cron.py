@@ -11,7 +11,7 @@ def get_awair_inbox_items():
 
 @app.task
 def turn_off_aircon_when_cold():
-    COLD_THRESHOLD = 21
+    COLD_THRESHOLD = 22
     score = cathy.get_score()
     if score.sensor.temp <= COLD_THRESHOLD:
         audrey.turn_off.delay()
