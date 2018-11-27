@@ -1,3 +1,4 @@
+from base64 import b64decode
 import os
 
 from dotenv import load_dotenv
@@ -7,6 +8,7 @@ load_dotenv()
 
 
 AUDREY_MAC_ADDRESS = os.getenv('AUDREY_MAC_ADDRESS')
+AUTH_AEAD_SECRET = b64decode(os.getenv('AUTH_AEAD_SECRET_B64'))
 AWAIR_ACCESS_TOKEN = os.getenv('AWAIR_ACCESS_TOKEN')
 AWAIR_DEVICE_ID = os.getenv('AWAIR_MINT_DEVICE_ID')
 AWAIR_EMAIL = os.getenv('AWAIR_EMAIL')

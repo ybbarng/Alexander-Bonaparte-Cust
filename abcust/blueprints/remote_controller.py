@@ -12,5 +12,5 @@ def index():
     if has_token:
         return redirect(url_for('remote_controller.index'))
     if not authorized(request):
-        return redirect('/auth?from={}'.format(quote(url_for('remote_controller.index'))))
+        return redirect('/auth?app={}'.format(quote('remote controller')))
     return render_template('remote-controller.html')

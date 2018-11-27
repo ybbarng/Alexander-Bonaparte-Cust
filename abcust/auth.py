@@ -1,7 +1,12 @@
+import base64
+import zlib
+
+import bson
 from celery import Celery
 from flask import session
+from rfc7539 import aead
 
-from abcust.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
+from abcust.settings import AUTH_AEAD_SECRET, CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 
 
 auth_celery = Celery('auth',
@@ -27,4 +32,20 @@ def authorized(request):
 
 
 def verify(access_token):
-    return auth_celery.send_task('auth.is_authenticated', args=(access_token,)).get() is not None
+    try:
+        token = decrypt_token(AUTH_AEAD_SECRET, access_token)
+        if token['app'] == 'remote controller':
+            return auth_celery.send_task(
+                'auth.is_authenticated',
+                args=(token['app'], token['user_id'], token['user_name'])
+            ).get()
+    except:
+        return False
+
+
+def decrypt_token(key, token):
+    token = base64.urlsafe_b64decode(token)
+    token = zlib.decompress(token)
+    token = bson.loads(token)
+    result = aead.verify_and_decrypt(key, token['nonce'], token['ciphertext'], token['tag'], token['header'])
+    return bson.loads(result)

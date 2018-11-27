@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_dance.contrib.slack import make_slack_blueprint, slack
 from werkzeug.contrib.fixers import ProxyFix
 
 from abcust.blueprints.api import api
@@ -25,7 +24,6 @@ def create_app(test_config=None):
     app.secret_key = FLASK_SECRET_KEY
 
     app.register_blueprint(api)
-    app.register_blueprint(make_slack_blueprint())
     app.register_blueprint(slack)
     app.register_blueprint(remote_controller)
     return app
