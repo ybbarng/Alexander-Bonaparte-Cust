@@ -53,7 +53,17 @@
         #cathy-loading {
             font-size: 15px;
             text-align: center;
-            padding: 8px 0;
+            padding: 8px 0 22px 0;
+        }
+        #cathy-error {
+            font-size: 15px;
+            text-align: center;
+            padding: 22px 0;
+            display: none;
+        }
+        #cathy-error .icon {
+            margin-bottom: 5px;
+            margin-right: 0px;
         }
         #cathy-data {
             display: none;
@@ -308,6 +318,12 @@
                     현재 공기질 데이터를<br> 불러오는 중입니다.
                 </div>
             </div>
+            <div id="cathy-error">
+                <img class="icon warning" alt="에러" src="{{ url_for('static', filename='remote-controller/icon/warning.svg') }}"/>
+                <div>
+                    공기질 데이터를 불러오는 중에 에러가 발생했습니다.
+                </div>
+            </div>
             <div id="cathy-data">
                 <div class="data-head-wrapper">
                     <div class="data major">
@@ -358,6 +374,7 @@
             The air conditioner icon is made by <a href="https://www.freepik.com" title="Freepik" target="_blank" rel="noopener">Freepik</a>.<br>
             The lamp icon is made by <a href="https://www.flaticon.com/authors/icongeek26" title="Icongeek26" target="_blank" rel="noopener">Icongeek26</a>.<br>
             The battery icon is made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a>.<br>
+            The error icon is made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a>.<br>
             These icons are from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noopener">www.flaticon.com</a><br>
             and licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener">CC 3.0 BY</a>.
         </div>
@@ -427,7 +444,12 @@
                 setData('voc', score.voc);
                 setData('pm25', score.pm25);
                 getElement('cathy-loading').style.display = 'none';
+                getElement('cathy-error').style.display = 'none';
                 getElement('cathy-data').style.display = 'inherit';
+            }).catch(function(error) {
+                getElement('cathy-loading').style.display = 'none';
+                getElement('cathy-error').style.display = 'inherit';
+                getElement('cathy-data').style.display = 'none';
             });
         }
 
