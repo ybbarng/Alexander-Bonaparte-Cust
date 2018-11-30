@@ -1,4 +1,4 @@
-git+https://github.com/ybbarng/awair@releases/tag/v0.0.3#egg=awair
+git+https://github.com/ybbarng/awair@v0.0.4#egg=awair
 bluepy==1.2.0
 bson==0.5.7
 celery==4.2.1
