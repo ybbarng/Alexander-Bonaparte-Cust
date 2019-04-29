@@ -26,6 +26,9 @@ def send_to_slack_blocking(color, title=None, message=None, fields=None, timesta
 
 
 def _notify_score(score):
+    if score is None:
+        message = '현재 공기질 데이터를 얻을 수 없습니다. Cathy가 혹시 꺼져있나요?'
+        return send_to_slack(COLORS[4], None, message, None, score.timestamp.timestamp() + (9 * 3600)) # from utc to +09:00
     message = '현재 공기질 종합 점수는 {}점입니다.'.format(score.score)
     fields = [
         {
@@ -66,6 +69,8 @@ def get_score():
 @app.task
 def get_serializable_score():
     score = get_score()
+    if score is None:
+        return None
     return {
         'total_score': {
             'score': score.score,

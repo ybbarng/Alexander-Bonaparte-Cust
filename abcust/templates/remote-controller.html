@@ -320,7 +320,7 @@
             </div>
             <div id="cathy-error">
                 <img class="icon warning" alt="에러" src="{{ url_for('static', filename='remote-controller/icon/warning.svg') }}"/>
-                <div>
+                <div id="cathy-error-message">
                     공기질 데이터를 불러오는 중에 에러가 발생했습니다.
                 </div>
             </div>
@@ -438,6 +438,11 @@
                 return response.json();
             }).then(function(response) {
                 score = response.data;
+                if (!score) {
+                    const message = '공기질 데이터가 없습니다.<br> 혹시 Cathy가 꺼져있나요?';
+                    onCachyError(message);
+                    return;
+                }
                 setData('total_score', score.total_score);
                 setData('temperature', score.temperature);
                 setData('humidity', score.humidity);
@@ -447,10 +452,16 @@
                 getElement('cathy-error').style.display = 'none';
                 getElement('cathy-data').style.display = 'inherit';
             }).catch(function(error) {
+                const message = '공기질 데이터를 불러오는 중에 에러가 발생했습니다.';
+                onCachyError(message);
+            });
+        }
+
+        function onCachyError(message) {
                 getElement('cathy-loading').style.display = 'none';
                 getElement('cathy-error').style.display = 'inherit';
                 getElement('cathy-data').style.display = 'none';
-            });
+                getElement('cathy-error-message').innerHTML = message;
         }
 
         function setData(id, data) {
