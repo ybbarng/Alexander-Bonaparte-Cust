@@ -1,3 +1,3 @@
 #!/bin/bash
 
-celery -A abcust worker -l info --beat
+celery -A abcust worker -n main_worker@%h -l info --beat
