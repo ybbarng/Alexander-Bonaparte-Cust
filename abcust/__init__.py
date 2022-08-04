@@ -1,5 +1,5 @@
 from flask import Flask
-from werkzeug.contrib.fixers import ProxyFix
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from abcust.blueprints.api import api
 from abcust.blueprints.remote_controller import remote_controller
