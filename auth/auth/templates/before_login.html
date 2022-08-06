@@ -1,0 +1,50 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            clear: both;
+            width: 420px;
+            margin: auto;
+            text-align: center;
+        }
+        #icon {
+            width: 80px;
+            height: 80px;
+            margin: 30px 0;
+        }
+        #message {
+            margin: 50px 20px;
+        }
+        #button-wrapper {
+            margin-top: 50px;
+        }
+        #footer {
+            position: fixed;
+            width: 420px;
+            bottom: 0;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 13px;
+        }
+        @media screen and (max-width: 480px) {
+            body {
+                width: 100%;
+            }
+            #footer {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img id="icon" src="{{ url_for('static', filename='lock.svg') }}" />
+    <p id="message">이 서비스를 이용하려면 {{ team_name }}의 슬랙에 로그인해야 합니다. 아래 버튼을 눌러서 로그인해주세요.</p>
+    <div id="button-wrapper">
+        <a href="{{ link }}"><img alt="Sign in with Slack" height="40" width="172" src="https://api.slack.com/img/sign_in_with_slack.png" srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" /></a>
+    </div>
+    <div id="footer">
+        <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect" target="_blank" rel="noopener">Pixel perfect</a><br>
+            from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noopener">www.flaticon.com</a><br>
+            is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener">CC 3.0 BY</a></div>
+    </div>
+</body>
