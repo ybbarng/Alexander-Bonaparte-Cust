@@ -19,7 +19,7 @@ def power_on():
 @app.task
 def power_off():
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
-    audrey.send_command('NORMAL:COOL:27:LOW')
+    audrey.send_command('NORMAL:COOL:24:LOW')
     audrey.disconnect()
     notify('파워모드를 껐습니다.')
 

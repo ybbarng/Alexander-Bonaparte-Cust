@@ -3,13 +3,16 @@ import json
 import requests
 
 from abcust.celery import app
-from abcust.settings import SLACK_WEBHOOK_URL, SLACK_LOG_URL
+from abcust.settings import SLACK_WEBHOOK_URL
 
 
 @app.task
 def write(name, color, title=None, message=None, fields=None, timestamp=None, title_link=None, log=True):
     # color: good(#2EB886), warning(#DAA038), danger(#A30200), #439FE0
-    url = SLACK_LOG_URL if log else SLACK_WEBHOOK_URL
+    if log:
+        print(message)
+        return
+    url = SLACK_WEBHOOK_URL
     if not url:
         raise ValueError('Invalid slack webook_url: {}'.format(url))
     headers = {

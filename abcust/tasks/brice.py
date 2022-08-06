@@ -58,7 +58,10 @@ def load_data_from_cache(key):
             data = json.load(f)
     except:
         return None
-    if datetime.fromtimestamp(data[key]['expired_at']) <= datetime.utcnow():
+    try:
+        if datetime.fromtimestamp(data[key]['expired_at']) <= datetime.utcnow():
+            return None
+    except:
         return None
     return data[key]['value']
 
