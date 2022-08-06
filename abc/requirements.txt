@@ -1,6 +1,6 @@
+git+https://github.com/ybbarng/awair@v0.0.6#egg=awair
 amqp==5.1.1
 async-timeout==4.0.2
-awair==0.0.6
 billiard==3.6.4.0
 bluepy==1.2.0
 bson==0.5.7
