@@ -11,7 +11,8 @@ def notify(message):
 @app.task
 def power_on():
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
-    audrey.send_command('TOGGLE:POWER:ON')
+    # TOGGLE:POWER:ON
+    audrey.send_command('AIRCON:8810089')
     audrey.disconnect()
     notify('파워모드를 켰습니다.')
 
@@ -19,7 +20,8 @@ def power_on():
 @app.task
 def power_off():
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
-    audrey.send_command('NORMAL:COOL:24:LOW')
+    # NORMAL:COOL:24:LOW
+    audrey.send_command('AIRCON:8808901')
     audrey.disconnect()
     notify('파워모드를 껐습니다.')
 
@@ -27,7 +29,8 @@ def power_off():
 @app.task
 def turn_on():
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
-    audrey.send_command('ON')
+    # ON
+    audrey.send_command('AIRCON:8800347')
     audrey.disconnect()
     notify('에어컨을 켰습니다.')
 
@@ -35,7 +38,8 @@ def turn_on():
 @app.task
 def turn_off():
     audrey = Audrey(AUDREY_MAC_ADDRESS, debug=True)
-    audrey.send_command('OFF')
+    # OFF
+    audrey.send_command('AIRCON:88C0051')
     audrey.disconnect()
     notify('에어컨을 껐습니다.')
 
