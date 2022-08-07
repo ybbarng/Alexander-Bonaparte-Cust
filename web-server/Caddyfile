@@ -1,0 +1,11 @@
+name.domain {
+   root * /path-to-root
+   log {
+    output file /path-to-log/access.log
+  }
+   encode zstd gzip
+   reverse_proxy /api/* localhost:8000
+   reverse_proxy /abc/* localhost:8001
+   reverse_proxy /auth/* localhost:8002
+}
+
